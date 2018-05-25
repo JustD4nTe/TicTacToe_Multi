@@ -12,10 +12,10 @@ public:
 
 
 private:
-	X_OR_O Array[9] = { 
+	X_OR_O Array[9] = {
 		EMPTY, EMPTY, EMPTY,
 		EMPTY, EMPTY, EMPTY,
-		EMPTY, EMPTY, EMPTY 
+		EMPTY, EMPTY, EMPTY
 	};
 
 public:
