@@ -32,7 +32,7 @@
     <ClInclude Include="src\Game.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="src\main.h">
+    <ClInclude Include="src\Board.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

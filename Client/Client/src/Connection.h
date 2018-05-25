@@ -1,5 +1,5 @@
 #pragma once
-#include <winsock.h>
+#include <WinSock.h>
 #include <string>
 
 class Connection {
@@ -22,7 +22,12 @@ private:
 		GameState_DRAW
 	};
 
+	bool Recvall(char* data, unsigned int totablBytes);
+	bool GetUInt32_t(uint32_t& _int32_t);
+
 public:
 	Connection(std::string IP, unsigned int PORT);
-	bool Connect();
+	bool ConnectToServer();
+	
+	bool  GetString(std::string& _string);
 };

@@ -2,11 +2,9 @@
 
 int main() {
 	Game* game = new Game();
-
-
+	
 	//	Connect to Server
-
-	//	Get name from Server	
+	game->Connect();
 
 	//	Wait for oponent
 
@@ -25,7 +23,7 @@ int main() {
 
 	//	Display information about endGame
 	//	Clear board
-	//	
+
 
 	return 0;
 }
