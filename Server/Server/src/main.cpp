@@ -2,7 +2,8 @@
 
 int main() {
 	Game* game = new Game();
-
+	game->Connect();
+	for(;;){}
 	//	Wait for PlayerOne
 	//	Create class for him (Send name to him, save IP etc.)
 	

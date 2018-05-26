@@ -1,15 +1,14 @@
-#include <string>
+#pragma comment(lib, "ws2_32.lib")
 
 #include "Connection.h"
 
-Connection::Connection(unsigned int PORT, bool BroadcastPublically = false) {
+Connection::Connection(unsigned int PORT, bool BroadcastPublically) {
 	// Winsock Startup
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 1), &wsaData) != 0) { // If WSAStartup returns anything other than 0, then that means an error has occured in the WinSock Startup.
 		MessageBox(NULL, "Winsock startup failed", "Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
-
 
 	if (BroadcastPublically) // If server is open to public
 		addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -34,4 +33,22 @@ Connection::Connection(unsigned int PORT, bool BroadcastPublically = false) {
 		MessageBoxA(NULL, ErrorMsg.c_str(), "Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
+}
+
+
+bool Connection::ListenForNewConnection() {
+	SOCKET newConnection; // Socket to hols the client's connection
+	newConnection = accept(sListen, (SOCKADDR*)&addr, &addrlen); // Accept a new connection
+	if (newConnection == 0) { // If accepting the client connection failed
+		std::cout << "Failed to accept the client's connection." << std::endl;
+		return false;
+	}
+
+	std::cout << "Connected" << std::endl;
+	Players[PlayerCounter].socket = newConnection;
+	Players[PlayerCounter].Name = (PlayerCounter == 0 ? "PlayerOne" : "PlayerTwo");
+	Packet p(PacketType::Name, Players[PlayerCounter].Name);
+	SendPacket(PlayerCounter, p);
+	PlayerCounter++;
+	return true;
 }

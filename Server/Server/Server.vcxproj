@@ -133,11 +133,13 @@
     <ClCompile Include="src\Connection.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SendGetMethods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Board.h" />
     <ClInclude Include="src\Connection.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Packet.h" />
     <ClInclude Include="src\Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

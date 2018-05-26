@@ -11,3 +11,8 @@ Board operator <<(Board& board, const Board::MOVE CurrentPlayer) {
 	board.Array[CurrentPlayer.Position] = CurrentPlayer.Sign;
 	return board;
 }
+
+void Game::Connect() {
+	if (Conn->ListenForNewConnection())
+		std::cout << "Created player!" << std::endl;
+}
