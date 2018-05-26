@@ -3,12 +3,11 @@
 
 class Game {
 private:
+	Connection * Conn;
 	Board board;
 
 public:
-	Connection * Conn;
-	Game() {
-		Conn = new Connection(1111);
-	};
+	Game() { Conn = new Connection(1111); };
+
 	void Connect();
 };

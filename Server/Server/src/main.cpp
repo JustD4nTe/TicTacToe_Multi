@@ -2,13 +2,10 @@
 
 int main() {
 	Game* game = new Game();
+
+	// Connect with 2 players
 	game->Connect();
 	for(;;){}
-	//	Wait for PlayerOne
-	//	Create class for him (Send name to him, save IP etc.)
-	
-	//	Wait for PlayerTwo
-	//	Do same things with Player Two
 	 
 	//	Cast lots about which player should start ( O <= always starts)
 	//	Send information about that

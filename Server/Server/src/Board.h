@@ -12,6 +12,7 @@ public:
 
 
 private:
+	// array to store player's signs
 	X_OR_O Array[9] = {
 		EMPTY, EMPTY, EMPTY,
 		EMPTY, EMPTY, EMPTY,

@@ -7,6 +7,7 @@ private:
 	Board board;
 	Connection* Conn;
 	std::string PlayerName;
+	Board::X_OR_O Sign;
 
 public:
 	Game();

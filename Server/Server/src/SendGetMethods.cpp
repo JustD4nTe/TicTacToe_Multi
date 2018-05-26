@@ -32,10 +32,11 @@ bool Connection::SendPacket(const unsigned int Client_ID, Packet& p) {
 	return true;
 }
 
-//	Client_ID = yup that's it :D
+//	Function to send data to Client
+//	Client_ID
 //	*data => where store data, 
 //	totalBytes => how much bytes to recv
-bool Connection::Send(const unsigned int Client_ID,char* data, uint32_t totalBytes) {
+bool Connection::Send(const unsigned int Client_ID,char* data, const uint32_t totalBytes) {
 	//	When receiving is failed => return false
 	return (send(Players[Client_ID].socket, data, totalBytes, NULL) == SOCKET_ERROR ? false : true);
 }
