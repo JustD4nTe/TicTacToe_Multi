@@ -14,7 +14,7 @@ Board operator <<(Board& board, const Board::MOVE CurrentPlayer) {
 }
 
 Game::Game() {
-	Conn = new Connection("127.0.0.1", 111);
+	Conn = new Connection("127.0.0.1", 1111);
 }
 
 void Game::Connect() {
@@ -23,8 +23,7 @@ void Game::Connect() {
 		Sleep(1000);
 	}
 	
-	// Wait 0.1s for response (name)
-	Sleep(100);
-
 	Conn->GetString(PlayerName);
+	std::cout << "Hello " << PlayerName << "!\n";
+	for(;;){}
 }
