@@ -4,8 +4,13 @@
 
 class Connection {
 private:
+	//	Socket to send and receive data
 	SOCKET Conn;
+
+	// Address that will bind listening socket to
 	SOCKADDR_IN addr;
+
+	// Length of the address (required for accept call)
 	int sizeofaddr = sizeof(addr);
 
 	enum PacketType {
@@ -22,7 +27,7 @@ private:
 		GameState_DRAW
 	};
 
-	bool Recvall(char* data, unsigned int totablBytes);
+	bool Receive(char* data, unsigned int totablBytes);
 	bool GetUInt32_t(uint32_t& _int32_t);
 
 public:

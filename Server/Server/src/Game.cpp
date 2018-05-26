@@ -12,7 +12,10 @@ Board operator <<(Board& board, const Board::MOVE CurrentPlayer) {
 	return board;
 }
 
+// Connect with two players
 void Game::Connect() {
+	if (Conn->ListenForNewConnection())
+		std::cout << "Created player!" << std::endl;
 	if (Conn->ListenForNewConnection())
 		std::cout << "Created player!" << std::endl;
 }

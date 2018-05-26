@@ -24,6 +24,8 @@ private:
 
 public:
 	Packet(PacketType _packetType, std::string _string) : m_String(_string), m_PacketType(_packetType) {};
+	
+	// Get private members
 	PacketType GetPacketType() { return m_PacketType; };
 	std::string GetString() { return m_String; };
 };

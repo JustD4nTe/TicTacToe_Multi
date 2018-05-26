@@ -4,8 +4,7 @@
 
 #include "Board.h"
 
-class Player {
-public:
+struct Player {
 	SOCKET socket;
 	std::string Name;
 	Board::X_OR_O Sign;

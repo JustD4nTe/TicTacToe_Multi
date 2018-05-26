@@ -17,12 +17,16 @@ Game::Game() {
 	Conn = new Connection("127.0.0.1", 1111);
 }
 
+
 void Game::Connect() {
+	//	Try to connect with Server every 1s
 	while (!Conn->ConnectToServer()){
 		std::cout << "Failed to connect to server..." << std::endl;
 		Sleep(1000);
 	}
 	
+	//	When we connected with Server
+	//	We're getting name Like "PlayerOne"
 	Conn->GetString(PlayerName);
 	std::cout << "Hello " << PlayerName << "!\n";
 	for(;;){}

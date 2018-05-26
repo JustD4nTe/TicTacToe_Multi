@@ -4,18 +4,25 @@
 #include "Player.h"
 #include "Packet.h"
 
+#define PLAYERS_COUNT 2
+
 class Connection : private _PacketType{
 private:
-	SOCKADDR_IN addr; // Address that will bind listening socket to
-	int addrlen = sizeof(addr); // Length of the address (required for accept call)
-	SOCKET sListen;
-	Player Players[2];
+	// Address that will bind listening socket to
+	SOCKADDR_IN addr; 
 
+	// Length of the address (required for accept call)
+	int addrlen = sizeof(addr);
+
+	//	Socket to listening
+	SOCKET sListen;	
+
+	Player Players[PLAYERS_COUNT];
 	unsigned int PlayerCounter = 0;
 	
 
 public:
-	Connection(unsigned int PORT, bool BroadcastPublically = false);
+	Connection(const unsigned int PORT, bool BroadcastPublically = false);
 	bool ListenForNewConnection();
 
 private:
@@ -23,5 +30,5 @@ private:
 	bool SendPacket(const unsigned int Client_ID, Packet& p);
 	bool SendUInt32_t(const unsigned int Client_ID, uint32_t _UInt32_t);
 
-	bool Send(const unsigned int Client_ID, char* data, uint32_t _UInt32_t);
+	bool Send(const unsigned int Client_ID, char* data, const uint32_t _UInt32_t);
 };
