@@ -5,11 +5,15 @@ int main() {
 
 	// Connect with 2 players
 	game->Connect();
-	for(;;){}
-	 
+
 	//	Cast lots about which player should start ( O <= always starts)
 	//	Send information about that
+	if (!game->Shuffle()) {
+		std::cout << "Err!" << __LINE__;
+		return 1;
+	}
 
+	for(;;){}
 	//	Loop until Win/Lose/Draw:
 	//		Wait for Packet about sign position 
 	//		Check if it's OK

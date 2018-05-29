@@ -25,6 +25,12 @@ public:
 	Connection(const unsigned int PORT, bool BroadcastPublically = false);
 	bool ListenForNewConnection();
 
+	// Get pointer to Player only when they exist
+	//	Index start from 0 :<
+	Player* GetPlayer(const unsigned int Player_ID) { 
+		return (Player_ID >= PlayerCounter ? nullptr : &Players[Player_ID]);
+	};
+
 private:
 	//	Methods to send data
 	//bool SendPacket(const unsigned int Client_ID, Packet& p);
@@ -41,7 +47,7 @@ private:
 
 	static void ClientHandlerThread(const unsigned int Client_ID);
 
-	bool ProccessPacketType(const unsigned int Client_ID, PacketType _packetType);	
+	bool ProccessPacketType(const unsigned int Client_ID, PacketType _packetType);
 };
 
 static Connection* Conptr;

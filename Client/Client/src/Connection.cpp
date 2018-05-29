@@ -2,6 +2,8 @@
 
 #include "Connection.h"
 
+#define NOT_SIGN 2
+
 Connection::Connection(const std::string IP, const unsigned int PORT) {
 	// Winsock Startup
 	WSADATA wsaData;
@@ -28,4 +30,17 @@ bool Connection::ConnectToServer() {
 void Connection::GetName(std::string& _Name) {
 	SendPacketType(Packet::Name);
 	GetString(_Name);
+}
+
+bool Connection::GetSign(uint32_t& _isO) {
+	SendPacketType(Packet::Game_Sign);
+
+	uint32_t isO;
+	GetUInt32_t(isO);
+
+	if (isO == NOT_SIGN)
+		return false;
+
+	_isO = isO;
+	return true;
 }
