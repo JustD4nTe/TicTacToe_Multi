@@ -29,6 +29,7 @@ private:
 	//	Methods to send data
 	//bool SendPacket(const unsigned int Client_ID, Packet& p);
 	bool SendString(const unsigned int Client_ID, const std::string& Message);	
+	bool SendPacketType(const unsigned int Client_ID, const PacketType _packetType);
 	bool SendUInt32_t(const unsigned int Client_ID, uint32_t _UInt32_t);
 	bool Send(const unsigned int Client_ID, char* data, const uint32_t _UInt32_t);
 

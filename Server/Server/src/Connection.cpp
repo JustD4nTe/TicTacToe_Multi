@@ -75,6 +75,7 @@ void Connection::ClientHandlerThread(const unsigned int Client_ID) {
 			break;
 	}
 	std::cout << "Lost connection to client ID: " << Client_ID << std::endl;
+	Conptr->PlayerCounter--;
 	closesocket(Conptr->Players[Client_ID].socket);
 }
 
@@ -82,29 +83,36 @@ void Connection::ClientHandlerThread(const unsigned int Client_ID) {
 //	different packet == different action
 bool Connection::ProccessPacketType(const unsigned int Client_ID, PacketType _packetType) {
 	switch (_packetType) {
-	case PacketType::Name:
+	case Name:
 		if (!SendString(Client_ID, Conptr->Players[Client_ID].Name))
 			return false;
 		break;
-	case PacketType::Conn_OponentDisconnected:
+	case Conn_OponentDisconnected:
 		break;
 	case PacketType::Conn_OponentConnected:
 		break;
-	case PacketType::Conn_WaitForSecondPlayer:
+	case Conn_WaitForSecondPlayer:
+		if (PlayerCounter < 2) {
+			if (!SendPacketType(Client_ID, Conn_WaitForSecondPlayer))
+				return false;
+		}
+
+		else if(!SendPacketType(Client_ID, Conn_OponentConnected))
+			return false;
 		break;
-	case PacketType::Move_Oponent:
+	case Move_Oponent:
 		break;
-	case PacketType::Move_Bad:
+	case Move_Bad:
 		break;
-	case PacketType::Move_Good:
+	case Move_Good:
 		break;
-	case PacketType::Game_Sign:
+	case Game_Sign:
 		break;
-	case PacketType::GameState_WIN:
+	case GameState_WIN:
 		break;
-	case PacketType::GameState_LOSE:
+	case GameState_LOSE:
 		break;
-	case PacketType::GameState_DRAW:
+	case GameState_DRAW:
 		break;
 	default:
 		break;

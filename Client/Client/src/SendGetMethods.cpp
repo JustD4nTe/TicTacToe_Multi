@@ -41,6 +41,14 @@ bool Connection::GetString(std::string& _string) {
 	return true;
 }
 
+bool Connection::GetPacketType(Packet::Type& _Type) {
+	uint32_t temp;
+	if (!GetUInt32_t(temp))
+		return false;
+	_Type = (Packet::Type) temp;
+	return true;
+}
+
 //	Semd data from Server
 //	*data => where store data, 
 //	totalBytes => how much bytes to send
@@ -55,6 +63,7 @@ bool Connection::SendUInt32_t(uint32_t _uint32_t) {
 }
 
 
-bool Connection::SendPacketType(PacketType _packetType) {
-	return SendUInt32_t((uint32_t)_packetType);
+bool Connection::SendPacketType(const Packet::Type _Type) {
+	return SendUInt32_t((uint32_t)_Type);
 }
+
