@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Game.h"
 
 int main() {
@@ -7,7 +9,13 @@ int main() {
 	game->Connect();
 
 	//	Wait for oponent
-
+	std::cout << "Wait for oponent.";
+	while (!game->AskForOponent()) {
+		std::cout << '.';
+		Sleep(500);
+	}
+	std::cout << "\nFound!\n";
+	for (;;) {}
 	//	Get Packet with informationa about 
 	//	which player start
 

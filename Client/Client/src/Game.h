@@ -12,4 +12,6 @@ private:
 public:
 	Game();
 	void Connect();
+
+	bool AskForOponent();
 };

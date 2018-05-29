@@ -2,6 +2,8 @@
 #include <WinSock.h>
 #include <string>
 
+#include "Packet.h"
+
 class Connection {
 private:
 	//	Socket to send and receive data
@@ -12,21 +14,6 @@ private:
 
 	// Length of the address (required for accept call)
 	int sizeofaddr = sizeof(addr);
-	
-	// Types of packets which we can send/receive
-	enum PacketType {
-		Name,
-		Conn_OponentDisconnected,
-		Conn_OponentConnected,
-		Conn_WaitForSecondPlayer,
-		Move_Oponent,
-		Move_Bad,
-		Move_Good,
-		Game_Sign,
-		GameState_WIN,
-		GameState_LOSE,
-		GameState_DRAW
-	};
 
 	//	Methods to send data
 	bool Receive(char* data, const unsigned int totablBytes);
@@ -36,7 +23,7 @@ private:
 	//	Methods to receive data
 	bool Send(char* data, const unsigned int totalBytes);
 	bool SendUInt32_t(uint32_t _int32_t);
-	bool SendPacketType(PacketType _packetType);
+	
 
 public:
 	Connection(const std::string IP, const unsigned int PORT);
@@ -44,4 +31,7 @@ public:
 	
 	//	TODO: change that :<
 	void GetName(std::string& _Name);
+
+	bool SendPacketType(const Packet::Type _packetType);
+	bool GetPacketType(Packet::Type& _packetType );
 };

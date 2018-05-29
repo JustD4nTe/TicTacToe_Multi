@@ -29,5 +29,11 @@ void Game::Connect() {
 	//	We're getting name Like "PlayerOne"
 	Conn->GetName(PlayerName);
 	std::cout << "Hello " << PlayerName << "!\n";
-	for(;;){}
+}
+
+bool Game::AskForOponent() {
+	Conn->SendPacketType(Packet::Conn_WaitForSecondPlayer);
+	Packet::Type PacketDump;
+	Conn->GetPacketType(PacketDump);
+	return (PacketDump == Packet::Conn_OponentConnected ? true : false);
 }

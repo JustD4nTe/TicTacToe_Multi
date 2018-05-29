@@ -54,6 +54,10 @@ bool Connection::SendString(const unsigned int Client_ID, const std::string& Mes
 	return true;
 }
 
+bool Connection::SendPacketType(const unsigned int Client_ID, const PacketType _packetType) {
+	return SendUInt32_t(Client_ID, (uint32_t)_packetType);
+}
+
 //	Function to get data to Client
 //	Client_ID
 //	*data => where store data, 
@@ -64,7 +68,10 @@ bool Connection::Receive(const unsigned int Client_ID, char* data, const uint32_
 }
 
 bool Connection::GetUInt32_t(const unsigned int Client_ID, uint32_t& _UInt32_t) {
-	return (Receive(Client_ID, (char*)&_UInt32_t, sizeof(uint32_t)));
+	if (!Receive(Client_ID, (char*)&_UInt32_t, sizeof(uint32_t)))
+		return false;
+	_UInt32_t = ntohl(_UInt32_t);
+	return true;
 }
 
 bool Connection::GetPacketType(const unsigned int Client_ID, PacketType& _packetType) {
