@@ -133,6 +133,7 @@
     <ClCompile Include="src\Connection.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SendGetMethods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Board.h" />

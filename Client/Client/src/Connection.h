@@ -12,7 +12,8 @@ private:
 
 	// Length of the address (required for accept call)
 	int sizeofaddr = sizeof(addr);
-
+	
+	// Types of packets which we can send/receive
 	enum PacketType {
 		Name,
 		Conn_OponentDisconnected,
@@ -27,12 +28,20 @@ private:
 		GameState_DRAW
 	};
 
-	bool Receive(char* data, unsigned int totablBytes);
+	//	Methods to send data
+	bool Receive(char* data, const unsigned int totablBytes);
 	bool GetUInt32_t(uint32_t& _int32_t);
+	bool GetString(std::string& _string);
+
+	//	Methods to receive data
+	bool Send(char* data, const unsigned int totalBytes);
+	bool SendUInt32_t(uint32_t _int32_t);
+	bool SendPacketType(PacketType _packetType);
 
 public:
-	Connection(std::string IP, unsigned int PORT);
+	Connection(const std::string IP, const unsigned int PORT);
 	bool ConnectToServer();
 	
-	bool  GetString(std::string& _string);
+	//	TODO: change that :<
+	void GetName(std::string& _Name);
 };

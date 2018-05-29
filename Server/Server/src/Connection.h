@@ -6,7 +6,7 @@
 
 #define PLAYERS_COUNT 2
 
-class Connection : private _PacketType{
+class Connection{
 private:
 	// Address that will bind listening socket to
 	SOCKADDR_IN addr; 
@@ -26,9 +26,21 @@ public:
 	bool ListenForNewConnection();
 
 private:
-	bool SendString(const unsigned int Client_ID, const std::string& Message);
-	bool SendPacket(const unsigned int Client_ID, Packet& p);
+	//	Methods to send data
+	//bool SendPacket(const unsigned int Client_ID, Packet& p);
+	bool SendString(const unsigned int Client_ID, const std::string& Message);	
 	bool SendUInt32_t(const unsigned int Client_ID, uint32_t _UInt32_t);
-
 	bool Send(const unsigned int Client_ID, char* data, const uint32_t _UInt32_t);
+
+	//	Methods to get data
+	bool GetPacketType(const unsigned int Client_ID, PacketType& _packetType);
+	bool GetUInt32_t(const unsigned int Client_ID, uint32_t& _UInt32_t);
+	bool Receive(const unsigned int Client_ID, char* data, const uint32_t totablBytes);
+
+
+	static void ClientHandlerThread(const unsigned int Client_ID);
+
+	bool ProccessPacketType(const unsigned int Client_ID, PacketType _packetType);	
 };
+
+static Connection* Conptr;

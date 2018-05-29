@@ -34,6 +34,8 @@ Connection::Connection(const unsigned int PORT, bool BroadcastPublically) {
 		MessageBoxA(NULL, ErrorMsg.c_str(), "Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
+
+	Conptr = this;	
 }
 
 
@@ -53,10 +55,59 @@ bool Connection::ListenForNewConnection() {
 	Players[PlayerCounter].socket = newConnection;
 	Players[PlayerCounter].Name = (PlayerCounter == 0 ? "PlayerOne" : "PlayerTwo");
 
-	Packet p(PacketType::Name, Players[PlayerCounter].Name);
-	// Send packet about Player's name
-	SendPacket(PlayerCounter, p);
+	//	Create thread to manage client's packets
+	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)PlayerCounter, NULL, NULL);
 
 	PlayerCounter++;
+	return true;
+}
+
+//	Function to manage client's packets
+void Connection::ClientHandlerThread(const unsigned int Client_ID) {
+	PacketType _packetType;
+	while (true) {
+		//	First get packet to know what to do next
+		if (!Conptr->GetPacketType(Client_ID, _packetType))
+			break;
+
+		//	Next server do what they ask to do 	
+		if (!Conptr->ProccessPacketType(Client_ID,_packetType))
+			break;
+	}
+	std::cout << "Lost connection to client ID: " << Client_ID << std::endl;
+	closesocket(Conptr->Players[Client_ID].socket);
+}
+
+//	Function to manage PacketType
+//	different packet == different action
+bool Connection::ProccessPacketType(const unsigned int Client_ID, PacketType _packetType) {
+	switch (_packetType) {
+	case PacketType::Name:
+		if (!SendString(Client_ID, Conptr->Players[Client_ID].Name))
+			return false;
+		break;
+	case PacketType::Conn_OponentDisconnected:
+		break;
+	case PacketType::Conn_OponentConnected:
+		break;
+	case PacketType::Conn_WaitForSecondPlayer:
+		break;
+	case PacketType::Move_Oponent:
+		break;
+	case PacketType::Move_Bad:
+		break;
+	case PacketType::Move_Good:
+		break;
+	case PacketType::Game_Sign:
+		break;
+	case PacketType::GameState_WIN:
+		break;
+	case PacketType::GameState_LOSE:
+		break;
+	case PacketType::GameState_DRAW:
+		break;
+	default:
+		break;
+	}
 	return true;
 }

@@ -27,7 +27,7 @@ void Game::Connect() {
 	
 	//	When we connected with Server
 	//	We're getting name Like "PlayerOne"
-	Conn->GetString(PlayerName);
+	Conn->GetName(PlayerName);
 	std::cout << "Hello " << PlayerName << "!\n";
 	for(;;){}
 }
