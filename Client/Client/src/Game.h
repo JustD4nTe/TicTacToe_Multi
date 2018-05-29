@@ -14,4 +14,5 @@ public:
 	void Connect();
 
 	bool AskForOponent();
+	bool Sign();
 };

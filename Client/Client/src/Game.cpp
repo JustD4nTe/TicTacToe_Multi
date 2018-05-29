@@ -37,3 +37,11 @@ bool Game::AskForOponent() {
 	Conn->GetPacketType(PacketDump);
 	return (PacketDump == Packet::Conn_OponentConnected ? true : false);
 }
+
+bool Game::RequestForSign() {
+	uint32_t isO;
+	if (!Conn->GetSign(isO))
+		return false;
+	Sign = (isO ? Board::O : Board::X);
+	return true;
+}

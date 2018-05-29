@@ -107,6 +107,15 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, PacketType _pa
 	case Move_Good:
 		break;
 	case Game_Sign:
+		if (Players[Client_ID].Sign == Board::EMPTY) {
+			if (!SendUInt32_t(Client_ID, 2))
+				return false;
+		}
+		else {
+			uint32_t isO = (Players[Client_ID].Sign == Board::O ? 1 : 0);
+			if (!SendUInt32_t(Client_ID, isO))
+				return false;
+		}
 		break;
 	case GameState_WIN:
 		break;

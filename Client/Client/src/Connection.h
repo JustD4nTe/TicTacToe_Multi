@@ -31,6 +31,7 @@ public:
 	
 	//	TODO: change that :<
 	void GetName(std::string& _Name);
+	bool GetSign(uint32_t& _isO);
 
 	bool SendPacketType(const Packet::Type _packetType);
 	bool GetPacketType(Packet::Type& _packetType );
