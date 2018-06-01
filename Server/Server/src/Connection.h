@@ -35,19 +35,19 @@ private:
 	//	Methods to send data
 	//bool SendPacket(const unsigned int Client_ID, Packet& p);
 	bool SendString(const unsigned int Client_ID, const std::string& Message);	
-	bool SendPacketType(const unsigned int Client_ID, const PacketType _packetType);
+	bool SendPacketType(const unsigned int Client_ID, const Packet::Server _packetType);
 	bool SendUInt32_t(const unsigned int Client_ID, uint32_t _UInt32_t);
 	bool Send(const unsigned int Client_ID, char* data, const uint32_t _UInt32_t);
 
 	//	Methods to get data
-	bool GetPacketType(const unsigned int Client_ID, PacketType& _packetType);
+	bool GetPacketType(const unsigned int Client_ID, Packet::Client& _packetType);
 	bool GetUInt32_t(const unsigned int Client_ID, uint32_t& _UInt32_t);
 	bool Receive(const unsigned int Client_ID, char* data, const uint32_t totablBytes);
 
 
 	static void ClientHandlerThread(const unsigned int Client_ID);
 
-	bool ProccessPacketType(const unsigned int Client_ID, PacketType _packetType);
+	bool ProccessPacketType(const unsigned int Client_ID, Packet::Client _packetType);
 };
 
 static Connection* Conptr;

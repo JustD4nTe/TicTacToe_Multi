@@ -22,10 +22,18 @@ void Game::Connect() {
 		std::cout << "Created player!" << std::endl;
 }
 
+//	Draw a sign for players
 bool Game::Shuffle() {
 	srand(static_cast<unsigned int>(time(NULL)));
+
+	//	Select sign for PlayerOne
+	//	he can get 'X' (as number 1)
+	//	or 'O' (as number 0)s
 	bool isX = rand() % 2;
 
+	//	Only sign 'O' start game
+	//	e.g. PlayerOne has a X
+	//	then PlayerTwo start game
 	ActualPlayer = (isX ? 2 : 1);
 
 	if (Conn->GetPlayer(0) == nullptr)

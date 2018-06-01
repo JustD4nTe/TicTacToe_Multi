@@ -13,19 +13,21 @@ int main() {
 		return 1;
 	}
 
-	for(;;){}
-	//	Loop until Win/Lose/Draw:
-	//		Wait for Packet about sign position 
-	//		Check if it's OK
-	//		if not then:
-	//			Response about bad position and back to beggining of loop
-	//		else:
-	//			Response about good position
-	//			Check if game is over, if yes then:
-	//				End loop					
-	//			Change player
-	//			Send information about new position from previous player
-	
+	game->Start();
+
+	do {
+		//	Loop until Win/Lose/Draw:
+		//		Wait for Packet about sign position 
+		//		Check if it's OK
+		//		if not then:
+		//			Response about bad position and back to beggining of loop
+		//		else:
+		//			Response about good position
+		//			Check if game is over, if yes then:
+		//				End loop					
+		//			Change player
+		//			Send information about new position from previous player
+	} while (true);
 	//	Send information to players about GameEnd 
 	//	(Who won/lost or aboout draw)
 
