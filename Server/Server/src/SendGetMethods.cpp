@@ -54,7 +54,7 @@ bool Connection::SendString(const unsigned int Client_ID, const std::string& Mes
 	return true;
 }
 
-bool Connection::SendPacketType(const unsigned int Client_ID, const PacketType _packetType) {
+bool Connection::SendPacketType(const unsigned int Client_ID, const Packet::Server _packetType) {
 	return SendUInt32_t(Client_ID, (uint32_t)_packetType);
 }
 

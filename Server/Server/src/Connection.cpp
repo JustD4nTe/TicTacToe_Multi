@@ -64,7 +64,7 @@ bool Connection::ListenForNewConnection() {
 
 //	Function to manage client's packets
 void Connection::ClientHandlerThread(const unsigned int Client_ID) {
-	PacketType _packetType;
+	Packet::Client _packetType;
 	while (true) {
 		//	First get packet to know what to do next
 		if (!Conptr->GetPacketType(Client_ID, _packetType))
@@ -81,32 +81,22 @@ void Connection::ClientHandlerThread(const unsigned int Client_ID) {
 
 //	Function to manage PacketType
 //	different packet == different action
-bool Connection::ProccessPacketType(const unsigned int Client_ID, PacketType _packetType) {
+bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client _packetType) {
 	switch (_packetType) {
-	case Name:
+	case Packet::Name:
 		if (!SendString(Client_ID, Conptr->Players[Client_ID].Name))
 			return false;
 		break;
-	case Conn_OponentDisconnected:
-		break;
-	case PacketType::Conn_OponentConnected:
-		break;
-	case Conn_WaitForSecondPlayer:
+	case Packet::Conn_WaitForSecondPlayer:
 		if (PlayerCounter < 2) {
-			if (!SendPacketType(Client_ID, Conn_WaitForSecondPlayer))
+			if (!SendPacketType(Client_ID, Packet::Conn_WaitForSecondPlayer))
 				return false;
 		}
 
-		else if(!SendPacketType(Client_ID, Conn_OponentConnected))
+		else if(!SendPacketType(Client_ID, Packet::Conn_OponentConnected))
 			return false;
 		break;
-	case Move_Oponent:
-		break;
-	case Move_Bad:
-		break;
-	case Move_Good:
-		break;
-	case Game_Sign:
+	case Packet::Game_Sign:
 		if (Players[Client_ID].Sign == Board::EMPTY) {
 			if (!SendUInt32_t(Client_ID, 2))
 				return false;
@@ -116,12 +106,6 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, PacketType _pa
 			if (!SendUInt32_t(Client_ID, isO))
 				return false;
 		}
-		break;
-	case GameState_WIN:
-		break;
-	case GameState_LOSE:
-		break;
-	case GameState_DRAW:
 		break;
 	default:
 		break;

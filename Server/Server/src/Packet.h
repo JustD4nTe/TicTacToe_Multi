@@ -1,28 +1,31 @@
 #pragma once
 
-enum PacketType {
-	Name,
-	Conn_OponentDisconnected,
-	Conn_OponentConnected,
-	Conn_WaitForSecondPlayer,
-	Move_Oponent,
-	Move_Bad,
-	Move_Good,
-	Game_Sign,
-	GameState_WIN,
-	GameState_LOSE,
-	GameState_DRAW
-};
+namespace Packet{
+	// Types of packets which
+	//	can clients send to server
+	enum Client {
+		Name,
+		Conn_OponentConnected,
+		Conn_WaitForSecondPlayer,
+		Moving_Who,
+		Move_Sign,
+		Game_Sign,
+		GameState
+	};
 
-class Packet {
-private:
-	std::string m_String;
-	PacketType m_PacketType;
-
-public:
-	Packet(PacketType _packetType, std::string _string) : m_String(_string), m_PacketType(_packetType) {};
-
-	// Get private members
-	PacketType GetPacketType() { return m_PacketType; };
-	std::string GetString() { return m_String; };
-};
+	// Types of packets which
+	//	can server send to clients
+	enum Server {
+		Conn_OponentConnected,
+		Conn_WaitForSecondPlayer,
+		Moving_Oponent,
+		Moving_You,
+		Move_Bad,
+		Move_Good,
+		GameState_InProgress,
+		GameState_End,
+		GameState_WIN,
+		GameState_LOSE,
+		GameState_DRAW
+	};
+}
