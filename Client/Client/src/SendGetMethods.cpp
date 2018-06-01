@@ -41,11 +41,11 @@ bool Connection::GetString(std::string& _string) {
 	return true;
 }
 
-bool Connection::GetPacketType(Packet::Type& _Type) {
+bool Connection::GetPacketType(Packet::Server& _Type) {
 	uint32_t temp;
 	if (!GetUInt32_t(temp))
 		return false;
-	_Type = (Packet::Type) temp;
+	_Type = (Packet::Server) temp;
 	return true;
 }
 
@@ -63,7 +63,7 @@ bool Connection::SendUInt32_t(uint32_t _uint32_t) {
 }
 
 
-bool Connection::SendPacketType(const Packet::Type _Type) {
+bool Connection::SendPacketType(const Packet::Client _Type) {
 	return SendUInt32_t((uint32_t)_Type);
 }
 
