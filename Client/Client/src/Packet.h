@@ -1,16 +1,29 @@
 #pragma once
 
-// Types of packets which we can send/receive
-namespace Packet{
-	enum Type {
+namespace Packet {
+	// Types of packets which
+	//	can clients send to server
+	enum Client {
 		Name,
-		Conn_OponentDisconnected,
 		Conn_OponentConnected,
 		Conn_WaitForSecondPlayer,
-		Move_Oponent,
+		Moving_Who,
+		Move_Sign,
+		Game_Sign,
+		GameState
+	};
+
+	// Types of packets which
+	//	can server send to clients
+	enum Server {
+		Conn_OponentConnected,
+		Conn_WaitForSecondPlayer,
+		Moving_Oponent,
+		Moving_You,
 		Move_Bad,
 		Move_Good,
-		Game_Sign,
+		GameState_InProgress,
+		GameState_End,
 		GameState_WIN,
 		GameState_LOSE,
 		GameState_DRAW
