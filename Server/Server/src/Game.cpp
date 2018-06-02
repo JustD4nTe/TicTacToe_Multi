@@ -48,3 +48,46 @@ bool Game::Shuffle() {
 
 	return true;
 }
+
+bool Game::CheckMove() {
+	while (true) {
+		if (Conn->CheckMove) {
+			if (board[Conn->Move] != Board::EMPTY && Conn->Move != 9) {
+				if (!Conn->SendGoodMove()) {
+					board << Board::MOVE(Conn->GetPlayer(ActualPlayer - 1)->Sign, Conn->Move);
+					return false;
+				}
+				break;
+			}
+			else {
+				if (!Conn->SendGoodMove(false))
+					return false;
+			}
+		}
+	}
+	Moves++;
+	return true;
+}
+
+bool Game::CheckBoard() {
+	for (int i = 0; i < 8; ++i) {
+		unsigned int MatchCounter = 0;
+		for (int j = 0; j < 9; ++j) {
+			if (Pattern[i][j] && board[j] == Conn->GetPlayer(ActualPlayer - 1)->Sign) {
+				if (++MatchCounter == 3) {
+					GameState = END;
+					Conn->Winner();
+					return true;
+				}
+			}
+		}
+	}
+
+	if (Moves == 8) {
+		GameState = END;
+		Conn->Draw();
+		return true;
+	}
+
+	return false;
+}

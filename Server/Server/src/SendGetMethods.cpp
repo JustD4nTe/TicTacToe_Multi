@@ -74,10 +74,10 @@ bool Connection::GetUInt32_t(const unsigned int Client_ID, uint32_t& _UInt32_t) 
 	return true;
 }
 
-bool Connection::GetPacketType(const unsigned int Client_ID, PacketType& _packetType) {
+bool Connection::GetPacketType(const unsigned int Client_ID, Packet::Client& _packetType) {
 	uint32_t packetDump;
 	if (!GetUInt32_t(Client_ID, packetDump))
 		return false;
-	_packetType = (PacketType)packetDump;
+	_packetType = (Packet::Client)packetDump;
 	return true;
 }
