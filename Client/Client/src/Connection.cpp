@@ -44,3 +44,33 @@ bool Connection::GetSign(uint32_t& _isO) {
 	_isO = isO;
 	return true;
 }
+
+bool Connection::isGoodMove(const unsigned int Move) {
+	if (!SendPacketType(Packet::Move_Sign))
+		return false;
+	if (!SendUInt32_t(Move))
+		return false;
+
+	Packet::Server MoveType;
+
+	if (!GetPacketType(MoveType))
+		return false;
+	//	Serer should response this two answers
+	if (MoveType == Packet::Move_Bad || MoveType == Packet::Move_Good)
+		return true;
+
+	return false;
+}
+bool Connection::isEnd() {
+	if (!SendPacketType(Packet::GameState))
+		return false;
+
+	Packet::Server GameState;
+
+	if (!GetPacketType(GameState))
+		return false;
+	if (GameState == Packet::GameState_End)
+		return true;
+
+	return false;
+}

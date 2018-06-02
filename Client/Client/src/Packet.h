@@ -19,7 +19,7 @@ namespace Packet {
 		Conn_OponentConnected,
 		Conn_WaitForSecondPlayer,
 		Moving_Oponent,
-		Moving_You,
+		Moving_Me,
 		Move_Bad,
 		Move_Good,
 		GameState_InProgress,
