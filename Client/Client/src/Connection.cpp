@@ -61,6 +61,26 @@ bool Connection::isGoodMove(const unsigned int Move) {
 
 	return false;
 }
+
+bool Connection::isOponentEndMove() {
+	if (!SendPacketType(Packet::Moving_Who))
+		return false;
+	Packet::Server MovingPlayer;
+
+	if (!GetPacketType(MovingPlayer))
+		return false;
+
+	return (MovingPlayer == Packet::Moving_Me ? true : false);
+}
+
+bool Connection::RequestAboutOponentMove(uint32_t& OponentMove) {
+	if (!SendPacketType(Packet::Move_Oponent))
+		return false;
+	
+	if (!GetUInt32_t(OponentMove))
+		return false;
+}
+
 bool Connection::isEnd() {
 	if (!SendPacketType(Packet::GameState))
 		return false;

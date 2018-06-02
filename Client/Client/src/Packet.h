@@ -9,6 +9,7 @@ namespace Packet {
 		Conn_WaitForSecondPlayer,
 		Moving_Who,
 		Move_Sign,
+		Move_Oponent,
 		Game_Sign,
 		GameState
 	};

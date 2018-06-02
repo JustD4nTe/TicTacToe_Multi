@@ -117,11 +117,31 @@ void Game::YourMove() {
 
 	//	Save move to board
 	board << Board::MOVE(Sign, PlayerMove[0]);
+
+	ActualPlayer = ENEMY;
 }
 
+void Game::OponentMove() {
+	std::cout << "Wait for oponent's move";
+	//	Ask server every 0.1s
+	//	if oponent ended move
+	do {
+		Sleep(100);
+		std::cout << ".";
+	}while(!Conn->isOponentEndMove());
+
+	uint32_t OponentMove;
+	if (!Conn->RequestAboutOponentMove(OponentMove)) {
+		std::cout << "Error, Line: " << __LINE__;
+	}
+
+	board << Board::MOVE(OponentSign, OponentMove);
+
+	ActualPlayer = ME;
+}
 
 Packet::Server Game::CheckPosition(const unsigned int PlayerMove) {
-	//	There's eigth fields
+	//	There's eight fields
 	if (PlayerMove > 8) {
 		std::cout << "Illegal move";
 		return Packet::Move_Bad;

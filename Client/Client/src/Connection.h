@@ -38,4 +38,6 @@ public:
 	bool isGoodMove(const unsigned int Move);
 	bool isOponentEndMove();
 	bool isEnd();
+
+	bool RequestAboutOponentMove(uint32_t& OponentMove);
 };
