@@ -2,7 +2,9 @@
 
 #include "Connection.h"
 
-Connection::Connection(const unsigned int PORT, bool BroadcastPublically) {
+Connection::Connection(uint8_t* _ActualPlayer, const unsigned int PORT, bool BroadcastPublically) {
+	CheckMove = false;
+	ActualPlayer = _ActualPlayer;
 	// Winsock Startup
 	WSADATA wsaData;
 	// If WSAStartup returns anything other than 0, then that means an error has occured in the WinSock Startup.
@@ -87,6 +89,7 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 		if (!SendString(Client_ID, Conptr->Players[Client_ID].Name))
 			return false;
 		break;
+
 	case Packet::Conn_WaitForSecondPlayer:
 		if (PlayerCounter < 2) {
 			if (!SendPacketType(Client_ID, Packet::Conn_WaitForSecondPlayer))
@@ -94,6 +97,33 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 		}
 
 		else if(!SendPacketType(Client_ID, Packet::Conn_OponentConnected))
+			return false;
+		break;
+
+	case Packet::Moving_Who:
+		if (Client_ID == (*ActualPlayer - 1)) {
+			if(!SendPacketType(Client_ID, Packet::Moving_You))
+				return false;
+		}
+
+		else {
+			if (!SendPacketType(Client_ID, Packet::Moving_Oponent))
+				return false;
+		}
+		break;
+	case Packet::Move_Sign:
+		if (Client_ID == (*ActualPlayer - 1)) {
+			CheckMove = true;
+			if (!GetUInt32_t(Client_ID, Move))
+				return false;
+			LastMove = Move;
+		}
+		else {
+			//	ERROR
+		}
+		break;
+	case Packet::Move_Oponent:
+		if (!SendUInt32_t(Client_ID,LastMove))
 			return false;
 		break;
 	case Packet::Game_Sign:
@@ -107,8 +137,42 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 				return false;
 		}
 		break;
+		
+	case Packet::GameState:
+		if (!isEnd) {
+			if (!SendPacketType(Client_ID, Packet::GameState_InProgress))
+				return false;
+		}
+		else {
+			if (ActualPlayer != 0) {
+				if ((uint32_t)(ActualPlayer - 1) == Client_ID) {
+					if (!SendPacketType(Client_ID, Packet::GameState_WIN))
+						return false;
+				}
+			}
+			else {
+				if (!SendPacketType(Client_ID, Packet::GameState_DRAW))
+					return false;
+			}
+		}
+		break;
+
 	default:
 		break;
+	}
+	return true;
+}
+
+bool Connection::SendGoodMove(bool isGoodMove) {
+	CheckMove = false;
+	Move = 9;
+	if (isGoodMove) {
+		if (!SendPacketType((uint32_t)(ActualPlayer - 1), Packet::Move_Good))
+			return false;
+	}
+	else {
+		if (!SendPacketType((uint32_t)(ActualPlayer - 1), Packet::Move_Bad))
+			return false;
 	}
 	return true;
 }

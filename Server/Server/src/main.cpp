@@ -16,6 +16,10 @@ int main() {
 	game->Start();
 
 	do {
+		if (game->CheckMove()) {
+			if (game->CheckBoard())
+				break;				
+		}
 		//	Loop until Win/Lose/Draw:
 		//		Wait for Packet about sign position 
 		//		Check if it's OK
@@ -27,7 +31,7 @@ int main() {
 		//				End loop					
 		//			Change player
 		//			Send information about new position from previous player
-	} while (true);
+	} while (game->InProgress());
 	//	Send information to players about GameEnd 
 	//	(Who won/lost or aboout draw)
 

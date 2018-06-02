@@ -19,10 +19,18 @@ private:
 
 	Player Players[PLAYERS_COUNT];
 	unsigned int PlayerCounter = 0;
+
+	const uint8_t* ActualPlayer;
+	bool isEnd = false;
 	
 
 public:
-	Connection(const unsigned int PORT, bool BroadcastPublically = false);
+	Connection(uint8_t* _ActualPlayer, const unsigned int PORT, bool BroadcastPublically = false);
+
+	static bool CheckMove;
+	static uint32_t Move;
+	static uint32_t LastMove;
+
 	bool ListenForNewConnection();
 
 	// Get pointer to Player only when they exist
@@ -30,6 +38,11 @@ public:
 	Player* GetPlayer(const unsigned int Player_ID) { 
 		return (Player_ID >= PlayerCounter ? nullptr : &Players[Player_ID]);
 	};
+
+	bool SendGoodMove(bool isGoodMove = true);
+
+	void Winner() {isEnd = true;};
+	void Draw() { isEnd = true; ActualPlayer = 0; };
 
 private:
 	//	Methods to send data
