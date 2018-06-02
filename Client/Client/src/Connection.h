@@ -33,6 +33,9 @@ public:
 	void GetName(std::string& _Name);
 	bool GetSign(uint32_t& _isO);
 
-	bool SendPacketType(const Packet::Type _packetType);
-	bool GetPacketType(Packet::Type& _packetType );
+	bool SendPacketType(const Packet::Client _packetType);
+	bool GetPacketType(Packet::Server& _packetType );
+	bool isGoodMove(const unsigned int Move);
+	bool isOponentEndMove();
+	bool isEnd();
 };
