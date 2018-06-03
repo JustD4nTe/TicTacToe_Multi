@@ -85,14 +85,14 @@ void Connection::ClientHandlerThread(const unsigned int Client_ID) {
 //	different packet == different action
 bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client _packetType) {
 	switch (_packetType) {
-	case Packet::Name:
+	case Packet::Game_Name:
 		if (!SendString(Client_ID, Conptr->Players[Client_ID].Name))
 			return false;
 		break;
 
 	case Packet::Conn_WaitForSecondPlayer:
 		if (PlayerCounter < 2) {
-			if (!SendPacketType(Client_ID, Packet::Conn_WaitForSecondPlayer))
+			if (!SendPacketType(Client_ID, Packet::Conn_OponentNonConected))
 				return false;
 		}
 
@@ -144,8 +144,8 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 				return false;
 		}
 		else {
-			if (ActualPlayer != 0) {
-				if ((uint32_t)(ActualPlayer - 1) == Client_ID) {
+			if (*ActualPlayer != 0) {
+				if ((uint32_t)(*ActualPlayer - 1) == Client_ID) {
 					if (!SendPacketType(Client_ID, Packet::GameState_WIN))
 						return false;
 				}
@@ -167,12 +167,14 @@ bool Connection::SendGoodMove(bool isGoodMove) {
 	CheckMove = false;
 	Move = 9;
 	if (isGoodMove) {
-		if (!SendPacketType((uint32_t)(ActualPlayer - 1), Packet::Move_Good))
+		if (!SendPacketType((uint32_t)(*ActualPlayer - 1), Packet::Move_Good))
 			return false;
+		return true;
 	}
 	else {
-		if (!SendPacketType((uint32_t)(ActualPlayer - 1), Packet::Move_Bad))
+		if (!SendPacketType((uint32_t)(*ActualPlayer - 1), Packet::Move_Bad))
 			return false;
+		return true;
 	}
 	return true;
 }
