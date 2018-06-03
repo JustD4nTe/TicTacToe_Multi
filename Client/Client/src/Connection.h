@@ -29,7 +29,6 @@ public:
 	Connection(const std::string IP, const unsigned int PORT);
 	bool ConnectToServer();
 	
-	//	TODO: change that :<
 	void GetName(std::string& _Name);
 	bool GetSign(uint32_t& _isO);
 

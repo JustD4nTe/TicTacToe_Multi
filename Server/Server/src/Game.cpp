@@ -35,6 +35,7 @@ bool Game::Shuffle() {
 	//	e.g. PlayerOne has a X
 	//	then PlayerTwo start game
 	ActualPlayer = (isX ? 2 : 1);
+	Conn->GetPlayer((ActualPlayer - 1))->isMyMove = true;
 
 	if (Conn->GetPlayer(0) == nullptr)
 		return false;
@@ -49,32 +50,39 @@ bool Game::Shuffle() {
 	return true;
 }
 
+//	Verify move from player
 bool Game::CheckMove() {
 	while (true) {
 		if (Conn->CheckMove) {
-			if (board[Conn->Move] != Board::EMPTY && Conn->Move != 9) {
-				if (!Conn->SendGoodMove()) {
-					board << Board::MOVE(Conn->GetPlayer(ActualPlayer - 1)->Sign, Conn->Move);
-					return false;
+			if (Conn->Move < 9 && board[Conn->Move] == Board::EMPTY) {
+				if (Conn->SendGoodMove()) {	//	Send aprove about move to ActualPlayer
+					Board::X_OR_O temp = Conn->GetPlayer(ActualPlayer - 1)->Sign;
+					//	Write down this move
+					board << Board::MOVE(temp, Conn->LastMove);
+					return true;
 				}
 				break;
 			}
 			else {
+				//	Reject move
 				if (!Conn->SendGoodMove(false))
 					return false;
 			}
 		}
 	}
+
+	// Players can move only 8 times
 	Moves++;
 	return true;
 }
 
+//	Checking board for end
 bool Game::CheckBoard() {
 	for (int i = 0; i < 8; ++i) {
 		unsigned int MatchCounter = 0;
 		for (int j = 0; j < 9; ++j) {
 			if (Pattern[i][j] && board[j] == Conn->GetPlayer(ActualPlayer - 1)->Sign) {
-				if (++MatchCounter == 3) {
+				if (++MatchCounter == 3) {	//	there should be 3 sings in row
 					GameState = END;
 					Conn->Winner();
 					return true;
@@ -83,11 +91,17 @@ bool Game::CheckBoard() {
 		}
 	}
 
+	//	When nobody wins and board is full
+	//	 it should by a draw
 	if (Moves == 8) {
 		GameState = END;
 		Conn->Draw();
 		return true;
 	}
 
+	//	Change actual player
+	Conn->GetPlayer((ActualPlayer - 1))->isMyMove = false;
+	ActualPlayer = (ActualPlayer == 1 ? 2 : 1);
+	Conn->GetPlayer((ActualPlayer - 1))->isMyMove = true;
 	return false;
 }

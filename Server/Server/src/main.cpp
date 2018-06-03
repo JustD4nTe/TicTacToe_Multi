@@ -20,17 +20,6 @@ int main() {
 			if (game->CheckBoard())
 				break;				
 		}
-		//	Loop until Win/Lose/Draw:
-		//		Wait for Packet about sign position 
-		//		Check if it's OK
-		//		if not then:
-		//			Response about bad position and back to beggining of loop
-		//		else:
-		//			Response about good position
-		//			Check if game is over, if yes then:
-		//				End loop					
-		//			Change player
-		//			Send information about new position from previous player
 	} while (game->InProgress());
 	std::cout << "END";
 	for (;;) {

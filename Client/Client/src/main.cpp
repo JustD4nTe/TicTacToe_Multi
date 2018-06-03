@@ -24,7 +24,6 @@ int main() {
 		std::cout << ".";
 		Sleep(100);
 	}
-	std::cout << "\nGot sign!\n";
 
 	do {
 		if (game->ActualPlayer == game->ME)

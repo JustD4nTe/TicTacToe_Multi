@@ -33,7 +33,7 @@ public:
 
 	bool ListenForNewConnection();
 
-	// Get pointer to Player only when they exist
+	//	Get pointer to Player only when they exist
 	//	Index start from 0 :<
 	Player* GetPlayer(const unsigned int Player_ID) { 
 		return (Player_ID >= PlayerCounter ? nullptr : &Players[Player_ID]);
@@ -41,12 +41,13 @@ public:
 
 	bool SendGoodMove(bool isGoodMove = true);
 
+	//	Set end game
 	void Winner() {isEnd = true;};
+	//	Set draw
 	void Draw() { isEnd = true; ActualPlayer = 0; };
 
 private:
 	//	Methods to send data
-	//bool SendPacket(const unsigned int Client_ID, Packet& p);
 	bool SendString(const unsigned int Client_ID, const std::string& Message);	
 	bool SendPacketType(const unsigned int Client_ID, const Packet::Server _packetType);
 	bool SendUInt32_t(const unsigned int Client_ID, uint32_t _UInt32_t);
@@ -56,7 +57,6 @@ private:
 	bool GetPacketType(const unsigned int Client_ID, Packet::Client& _packetType);
 	bool GetUInt32_t(const unsigned int Client_ID, uint32_t& _UInt32_t);
 	bool Receive(const unsigned int Client_ID, char* data, const uint32_t totablBytes);
-
 
 	static void ClientHandlerThread(const unsigned int Client_ID);
 

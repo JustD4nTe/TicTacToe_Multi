@@ -1,37 +1,5 @@
 #include "Connection.h"
 
-//bool Connection::SendPacket(const unsigned int Client_ID, Packet& p) {
-//	switch (p.GetPacketType()) {
-//	case PacketType::Name:
-//		if (!SendString(Client_ID, p.GetString()))
-//			return false;
-//		break;
-//	case PacketType::Conn_OponentDisconnected:
-//		break;
-//	case PacketType::Conn_OponentConnected:
-//		break;
-//	case PacketType::Conn_WaitForSecondPlayer:
-//		break;
-//	case PacketType::Move_Oponent:
-//		break;
-//	case PacketType::Move_Bad:
-//		break;
-//	case PacketType::Move_Good:
-//		break;
-//	case PacketType::Game_Sign:
-//		break;
-//	case PacketType::GameState_WIN:
-//		break;
-//	case PacketType::GameState_LOSE:
-//		break;
-//	case PacketType::GameState_DRAW:
-//		break;
-//	default:
-//		break;
-//	}
-//	return true;
-//}
-
 //	Function to send data to Client
 //	Client_ID
 //	*data => where store data, 
