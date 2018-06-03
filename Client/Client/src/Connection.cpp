@@ -28,7 +28,7 @@ bool Connection::ConnectToServer() {
 }
 
 void Connection::GetName(std::string& _Name) {
-	SendPacketType(Packet::Name);
+	SendPacketType(Packet::Game_Name);
 	GetString(_Name);
 }
 

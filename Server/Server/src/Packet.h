@@ -4,13 +4,12 @@ namespace Packet{
 	// Types of packets which
 	//	can clients send to server
 	enum Client {
-		Name,
-		Conn_OponentConnected,
 		Conn_WaitForSecondPlayer,
+		Game_Name,
+		Game_Sign,
 		Moving_Who,
 		Move_Sign,
 		Move_Oponent,
-		Game_Sign,
 		GameState
 	};
 
@@ -18,7 +17,7 @@ namespace Packet{
 	//	can server send to clients
 	enum Server {
 		Conn_OponentConnected,
-		Conn_WaitForSecondPlayer,
+		Conn_OponentNonConected,
 		Moving_Oponent,
 		Moving_You,
 		Move_Bad,

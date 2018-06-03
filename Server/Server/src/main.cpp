@@ -32,6 +32,11 @@ int main() {
 		//			Change player
 		//			Send information about new position from previous player
 	} while (game->InProgress());
+	std::cout << "END";
+	for (;;) {
+
+	}
+
 	//	Send information to players about GameEnd 
 	//	(Who won/lost or aboout draw)
 
