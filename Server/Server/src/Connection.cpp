@@ -2,6 +2,10 @@
 
 #include "Connection.h"
 
+bool Connection::CheckMove;
+uint32_t Connection::Move;
+uint32_t Connection::LastMove;
+
 Connection::Connection(uint8_t* _ActualPlayer, const unsigned int PORT, bool BroadcastPublically) {
 	CheckMove = false;
 	ActualPlayer = _ActualPlayer;
@@ -85,11 +89,13 @@ void Connection::ClientHandlerThread(const unsigned int Client_ID) {
 //	different packet == different action
 bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client _packetType) {
 	switch (_packetType) {
+	//	Send information about name
 	case Packet::Game_Name:
 		if (!SendString(Client_ID, Conptr->Players[Client_ID].Name))
 			return false;
 		break;
 
+	//	Send information about SecondPlayer (it's connected or not)
 	case Packet::Conn_WaitForSecondPlayer:
 		if (PlayerCounter < 2) {
 			if (!SendPacketType(Client_ID, Packet::Conn_OponentNonConected))
@@ -100,8 +106,9 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 			return false;
 		break;
 
+	//	Send information about actual player
 	case Packet::Moving_Who:
-		if (Client_ID == (*ActualPlayer - 1)) {
+		if (Client_ID == (*ActualPlayer - 1) && Players[Client_ID].isMyMove) {
 			if(!SendPacketType(Client_ID, Packet::Moving_You))
 				return false;
 		}
@@ -111,21 +118,27 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 				return false;
 		}
 		break;
+
+	//	Get move from player
 	case Packet::Move_Sign:
 		if (Client_ID == (*ActualPlayer - 1)) {
-			CheckMove = true;
 			if (!GetUInt32_t(Client_ID, Move))
 				return false;
+			CheckMove = true;
 			LastMove = Move;
 		}
 		else {
 			//	ERROR
 		}
 		break;
+
+	//	Send oponent's move
 	case Packet::Move_Oponent:
 		if (!SendUInt32_t(Client_ID,LastMove))
 			return false;
 		break;
+
+	//	Send information about sign
 	case Packet::Game_Sign:
 		if (Players[Client_ID].Sign == Board::EMPTY) {
 			if (!SendUInt32_t(Client_ID, 2))
@@ -138,6 +151,7 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 		}
 		break;
 		
+	//	Information about game (is ended (Win or draw) or not)
 	case Packet::GameState:
 		if (!isEnd) {
 			if (!SendPacketType(Client_ID, Packet::GameState_InProgress))
@@ -156,13 +170,11 @@ bool Connection::ProccessPacketType(const unsigned int Client_ID, Packet::Client
 			}
 		}
 		break;
-
-	default:
-		break;
 	}
 	return true;
 }
 
+// Send aprove or reject player's move
 bool Connection::SendGoodMove(bool isGoodMove) {
 	CheckMove = false;
 	Move = 9;

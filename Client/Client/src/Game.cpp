@@ -135,6 +135,7 @@ void Game::OponentMove() {
 		std::cout << "Error, Line: " << __LINE__;
 	}
 
+	// Write down oponent's move
 	board << Board::MOVE(OponentSign, OponentMove);
 
 	ActualPlayer = ME;
