@@ -1,4 +1,4 @@
-# Paper-Soccer
+# TicTacToe Multiplayer
 Same application as [TicTacToe](https://github.com/JustD4nTe/TicTacToe) but it has been extended to include a network connection(localhost).
 
 ## Setup
